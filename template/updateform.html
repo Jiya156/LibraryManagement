@@ -1,0 +1,72 @@
+{% include "header.html" %}
+
+<style>
+    body {
+        background-color: rgba(0, 0, 0, 0.079);
+    }
+    .hero {
+        background: linear-gradient(to right, #007bffb8, #6710f2b9);
+        color: white;
+        padding: 50px 20px;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .table-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container">
+    <!-- Hero Section -->
+    <div class="bg-info text-white text-center py-4 rounded" style="margin-top: 20px;">
+        <h1>Update Book</h1>
+    </div>
+
+    <!-- Form Container -->
+    <div class="card shadow mt-4 p-4">
+        <form action="/submitupdate/{{ book.id }}" method="GET">
+            <div class="mb-3">
+                <label for="title" class="form-label fw-bold">Title:</label>
+                <input type="text" class="form-control" name="title" id="title" value="{{ book.title }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="author" class="form-label fw-bold">Author:</label>
+                <input type="text" class="form-control" name="author" id="author" value="{{ book.author }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="isbn" class="form-label fw-bold">ISBN:</label>
+                <input type="text" class="form-control" name="isbn" id="isbn" value="{{ book.isbn }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label fw-bold">Category:</label>
+                <input type="text" class="form-control" name="category" id="category" value="{{ book.category }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="published_Year" class="form-label fw-bold">Published Year:</label>
+                <input type="number" class="form-control" name="published_Year" id="published_Year" value="{{ book.published_Year }}" required>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="availability" name="availability" value="Available" {% if book.availability %}checked{% endif %}>
+                <label class="form-check-label fw-bold" for="availability">Available</label>
+            </div>
+
+            <button type="submit" class="btn btn-info w-100">Update</button>
+        </form>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-3">
+        <a href="/home/" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+
+</body>
+</html>
