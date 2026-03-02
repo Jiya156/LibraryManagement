@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy to Azure VM
         run: |
-          ssh -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd /var/www/libraryapp/LibraryManagement
             git pull origin main
             source venv/bin/activate
