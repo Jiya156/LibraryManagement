@@ -1,0 +1,25 @@
+name: Deploy Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy to Azure VM
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
+            cd /var/www/libraryapp/LibraryManagement
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt || true
+            python manage.py migrate
+            pkill -f runserver || true
+            nohup python manage.py runserver 0.0.0.0:8000 &
+          "
