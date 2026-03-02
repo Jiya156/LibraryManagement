@@ -1,4 +1,4 @@
-name: Deploy Testing
+name: Deploy testing
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
 
       - name: Deploy to Azure VM
         run: |
-          echo "Deploying from Testing branch" 
+          echo "Deploying to testing branch"
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd /var/www/libraryapp/LibraryManagement
             git pull origin main
