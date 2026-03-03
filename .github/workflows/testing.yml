@@ -29,9 +29,7 @@ jobs:
             pip install -r requirements.txt || true
             python manage.py migrate
             pkill -f runserver || true
-            nohup python manage.py runserver 0.0.0.0:8000 & --noreload \
-              > /dev/null 2>&1 < /dev/null &
+            nohup python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
 
-            disown
             exit
           EOF
