@@ -1,9 +1,9 @@
-name: Deploy Testing Version
+name: Deploy Main
 
 on:
   push:
     branches:
-      - testing
+      - main
 
 jobs:
   deploy:
@@ -21,6 +21,7 @@ jobs:
 
       - name: Deploy to Azure VM
         run: |
+          echo "Deploying to main branch"
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd /var/www/libraryapp/LibraryManagement
             git pull origin main
@@ -28,7 +29,7 @@ jobs:
             pip install -r requirements.txt || true
             python manage.py migrate
             pkill -f runserver || true
-            nohup python manage.py runserver 0.0.0.0:8000  > server.log 2>&1 &
-            
+            nohup python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
+
             exit
           EOF
