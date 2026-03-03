@@ -1,4 +1,4 @@
-name: Deploy testing
+name: Deploy Testing
 
 on:
   push:
@@ -6,30 +6,7 @@ on:
       - testing
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to Azure VM
-        run: |
-          echo "Deploying to testing branch"
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd /var/www/libraryapp/LibraryManagement
-            git pull origin main
-            source venv/bin/activate
-            pip install -r requirements.txt || true
-            python manage.py migrate
-            pkill -f runserver || true
-            nohup python manage.py runserver 0.0.0.0:8000 > server.log 2>&1 &
-
-            exit
-          EOF
+  call-deploy:
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      branch_name: testing
